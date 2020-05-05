@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
+const logger = require('morgan');
 const { BASE_URL, PORT, DB_ADDRESS } = require('./config/configs');
 
 const app = express();
@@ -11,7 +12,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(passport.initialize());
+app.use(logger('dev'));
 // TODO: Set up passport
+// TODO: Keep reading on passport: 
+// https://itnext.io/implementing-json-web-tokens-passport-js-in-a-javascript-application-with-react-b86b1f313436
 
 // Mongoose connection
 mongoose.connect(DB_ADDRESS, {
