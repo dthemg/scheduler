@@ -11,8 +11,11 @@ const app = express();
 // Register middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(passport.initialize());
 app.use(logger('dev'));
+
+// Setup passport for authentication
+app.use(passport.initialize());
+require('./authentication/passport')(passport);
 // TODO: Set up passport
 // TODO: Keep reading on passport: 
 // https://itnext.io/implementing-json-web-tokens-passport-js-in-a-javascript-application-with-react-b86b1f313436
