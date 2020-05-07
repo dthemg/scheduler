@@ -22,8 +22,8 @@ require('./authentication/passport')(passport);
 
 // Mongoose connection
 mongoose.connect(DB_ADDRESS, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+	useNewUrlParser: true,
+	useUnifiedTopology: true
 });
 
 // Set up routes
