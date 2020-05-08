@@ -5,12 +5,14 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const { BASE_URL, PORT, DB_ADDRESS } = require('./config/configs');
+const authRoutes = require('./routes/authentication.routes');
 
 const app = express();
 
 // Register middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger('dev'));
 
 // Setup passport for authentication
@@ -25,6 +27,8 @@ mongoose.connect(DB_ADDRESS, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });
+
+app.use("/auth", authRoutes);
 
 // Set up routes
 // TODO Add first routes...
