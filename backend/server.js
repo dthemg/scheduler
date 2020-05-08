@@ -19,16 +19,16 @@ app.use(logger('dev'));
 app.use(passport.initialize());
 require('./authentication/passport')(passport);
 // TODO: Set up passport
-// TODO: Keep reading on passport: 
+// TODO: Keep reading on passport:
 // https://itnext.io/implementing-json-web-tokens-passport-js-in-a-javascript-application-with-react-b86b1f313436
 
 // Mongoose connection
 mongoose.connect(DB_ADDRESS, {
 	useNewUrlParser: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
 });
 
-app.use("/auth", authRoutes);
+app.use('/auth', authRoutes);
 
 // Set up routes
 // TODO Add first routes...
