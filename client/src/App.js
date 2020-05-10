@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import NavBar from './components/navbar.component';
+//import SignInComponent from './components/login.component';
 
 function App() {
 	return (
@@ -9,10 +9,6 @@ function App() {
 			<div>
 				<NavBar />
 			</div>
-			<header className='App-header'>
-				<img src={logo} className='App-logo' alt='logo' />
-				<p>Home page here</p>
-			</header>
 		</div>
 	);
 }
