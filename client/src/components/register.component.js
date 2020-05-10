@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,44 +10,28 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-function Copyright() {
-	return (
-		<Typography variant='body2' color='textSecondary' align='center'>
-			{'Copyright © '}
-			<Link color='inherit' href='https://material-ui.com/'>
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
-
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
-	},
-	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: theme.spacing(3),
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2),
-	},
-}));
+import { Copyright, useStyles } from './_common';
 
 export default function Register() {
+	const [state, setState] = useState({
+		firstName: '',
+		lastName: '',
+		email: '',
+		password: '',
+	});
 	const classes = useStyles();
+
+	const onChange = (event) => {
+		setState({ ...state, [event.target.id]: event.target.value });
+	};
+
+	const onSubmit = (event) => {
+		event.preventDefault();
+		const { firstName, lastName, email, password } = state;
+		console.log(firstName, lastName, email, password);
+	};
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -70,6 +54,7 @@ export default function Register() {
 								fullWidth
 								id='firstName'
 								label='First Name'
+								onChange={onChange}
 								autoFocus
 							/>
 						</Grid>
@@ -81,6 +66,7 @@ export default function Register() {
 								id='lastName'
 								label='Last Name'
 								name='lastName'
+								onChange={onChange}
 								autoComplete='lname'
 							/>
 						</Grid>
@@ -92,6 +78,7 @@ export default function Register() {
 								id='email'
 								label='Email Address'
 								name='email'
+								onChange={onChange}
 								autoComplete='email'
 							/>
 						</Grid>
@@ -104,6 +91,7 @@ export default function Register() {
 								label='Password'
 								type='password'
 								id='password'
+								onChange={onChange}
 								autoComplete='current-password'
 							/>
 						</Grid>
@@ -120,6 +108,7 @@ export default function Register() {
 						variant='contained'
 						color='primary'
 						className={classes.submit}
+						onClick={onSubmit}
 					>
 						Sign Up
 					</Button>

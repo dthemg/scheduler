@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +14,20 @@ import Container from '@material-ui/core/Container';
 import { Copyright, useStyles } from './_common';
 
 export default function Login() {
+	const [state, setState] = useState({
+		email: '',
+		password: '',
+	});
 	const classes = useStyles();
+
+	const onChange = (event) => {
+		setState({ ...state, [event.target.id]: event.target.value });
+	};
+
+	const onSubmit = (event) => {
+		event.preventDefault();
+		console.log(state);
+	};
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -36,6 +49,7 @@ export default function Login() {
 						label='Email Address'
 						name='email'
 						autoComplete='email'
+						onChange={onChange}
 						autoFocus
 					/>
 					<TextField
@@ -47,6 +61,7 @@ export default function Login() {
 						label='Password'
 						type='password'
 						id='password'
+						onChange={onChange}
 						autoComplete='current-password'
 					/>
 					<FormControlLabel
@@ -58,6 +73,7 @@ export default function Login() {
 						fullWidth
 						variant='contained'
 						color='primary'
+						onClick={onSubmit}
 						className={classes.submit}
 					>
 						Sign In
