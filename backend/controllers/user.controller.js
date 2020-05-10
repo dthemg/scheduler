@@ -90,3 +90,5 @@ module.exports.register = (req, res) => {
 		}
 	});
 };
+
+// TODO: Logout functionality

@@ -8,7 +8,7 @@ var opts = {
 	secretOrKey: secrets.secretOrKey,
 };
 
-const setupPassport = (passport) => {
+module.exports = (passport) => {
 	passport.use(
 		new JwtStrategy(opts, (jwt_payload, done) => {
 			User.findById(jwt_payload.id)
@@ -25,5 +25,3 @@ const setupPassport = (passport) => {
 		})
 	);
 };
-
-module.exports = setupPassport;
