@@ -35,10 +35,14 @@ export default function NavBar() {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant='h6' className={classes.title}>
-						Scheduler
+						<a href='/'>Scheduler</a>
 					</Typography>
-					<Button color='inherit'>Login</Button>
-					<Button color='inherit'>Register</Button>
+					<Button color='inherit' href='./login'>
+						Login
+					</Button>
+					<Button color='inherit' href='./register'>
+						Register
+					</Button>
 				</Toolbar>
 			</AppBar>
 		</div>
