@@ -20,6 +20,7 @@ export default function Register() {
 		lastName: '',
 		email: '',
 		password: '',
+		passwordConfirm: '',
 	});
 	const classes = useStyles();
 
@@ -92,7 +93,18 @@ export default function Register() {
 								type='password'
 								id='password'
 								onChange={onChange}
-								autoComplete='current-password'
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								variant='outlined'
+								required
+								fullWidth
+								name='passwordConfirm'
+								label='Confirm Password'
+								type='password'
+								id='passwordConfirm'
+								onChange={onChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
