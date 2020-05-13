@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Copyright, useStyles } from './_common';
+import axios from 'axios';
 
 export default function Login() {
 	const [state, setState] = useState({
@@ -27,6 +28,18 @@ export default function Login() {
 	const onSubmit = (event) => {
 		event.preventDefault();
 		console.log(state);
+		axios({
+			method: 'post',
+			url: 'http://localhost:9000/auth/login',
+			data: {
+				email: state.email,
+				password: state.password,
+			},
+		}).then((res) => {
+			localStorage.setItem('jwtToken', res.data.token);
+			console.log('Set local storage jwt token');
+		});
+		// TODO: Add then - store in localstorage - try to read it from elsewhere?
 	};
 
 	return (
