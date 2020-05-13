@@ -11,7 +11,7 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-
+import axios from 'axios';
 import { Copyright, useStyles } from './_common';
 
 export default function Register() {
@@ -32,6 +32,16 @@ export default function Register() {
 		event.preventDefault();
 		const { firstName, lastName, email, password } = state;
 		console.log(firstName, lastName, email, password);
+		axios({
+			method: 'post',
+			url: 'http://localhost:9000/auth/register',
+			data: {
+				name: firstName + ' ' + lastName,
+				email: email,
+				password: password,
+			},
+		});
+		// TODO: Add .then -> redirect if successful, stay if unsuccessful
 	};
 
 	return (
