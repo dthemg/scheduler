@@ -21,6 +21,16 @@ export default function Login() {
 	});
 	const classes = useStyles();
 
+	const setAuthenticationToken = (token) => {
+		if (token) {
+			// All requests should be sent with the jwt auth token
+			axios.defaults.headers.common['Authorization'] = token;
+		} else {
+			// All requests should be sent without any auth token
+			delete axios.defaults.headers.common['Authorization'];
+		}
+	};
+
 	const onChange = (event) => {
 		setState({ ...state, [event.target.id]: event.target.value });
 	};
@@ -35,11 +45,22 @@ export default function Login() {
 				email: state.email,
 				password: state.password,
 			},
-		}).then((res) => {
-			localStorage.setItem('jwtToken', res.data.token);
-			console.log('Set local storage jwt token');
-		});
-		// TODO: Add then - store in localstorage - try to read it from elsewhere?
+		})
+			.then((res) => {
+				console.log('Saving jwt token...');
+				const token = res.data.token;
+				console.log(token);
+				// Store token in localstorage
+				localStorage.setItem('jwtToken', token);
+				// Store token in axios defaults
+				setAuthenticationToken(token);
+			})
+			.catch((res) => {
+				console.log(res.response.data.message);
+				// This should be done on Logout instead...
+				localStorage.removeItem('jwtToken');
+				setAuthenticationToken();
+			});
 	};
 
 	return (

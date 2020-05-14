@@ -1,5 +1,13 @@
 import React from 'react';
 
 export default function Home() {
-	return <h1>Home</h1>;
+	const item = localStorage.getItem('jwtToken');
+
+	return (
+		<div>
+			<h1>Home</h1>
+			<p>JWT TOKEN</p>
+			<p>{item}</p>
+		</div>
+	);
 }
