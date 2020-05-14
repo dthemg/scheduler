@@ -5,6 +5,13 @@ import NavBar from './components/navbar.component';
 import Login from './components/login.component';
 import Home from './components/home.component';
 import Register from './components/register.component';
+import { setAxiosAuthHeader } from './utils/axios.utils';
+
+if (localStorage.jwtToken) {
+	console.log('JWT token found');
+	const token = localStorage.getItem('jwtToken');
+	setAxiosAuthHeader(token);
+}
 
 function App() {
 	return (

@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { Copyright, useStyles } from './_common';
 import axios from 'axios';
+import { setAxiosAuthHeader } from '../utils/axios.utils';
 
 export default function Login() {
 	const [state, setState] = useState({
@@ -20,16 +21,6 @@ export default function Login() {
 		password: '',
 	});
 	const classes = useStyles();
-
-	const setAuthenticationToken = (token) => {
-		if (token) {
-			// All requests should be sent with the jwt auth token
-			axios.defaults.headers.common['Authorization'] = token;
-		} else {
-			// All requests should be sent without any auth token
-			delete axios.defaults.headers.common['Authorization'];
-		}
-	};
 
 	const onChange = (event) => {
 		setState({ ...state, [event.target.id]: event.target.value });
@@ -53,13 +44,13 @@ export default function Login() {
 				// Store token in localstorage
 				localStorage.setItem('jwtToken', token);
 				// Store token in axios defaults
-				setAuthenticationToken(token);
+				setAxiosAuthHeader(token);
 			})
 			.catch((res) => {
 				console.log(res.response.data.message);
 				// This should be done on Logout instead...
 				localStorage.removeItem('jwtToken');
-				setAuthenticationToken();
+				setAxiosAuthHeader();
 			});
 	};
 
