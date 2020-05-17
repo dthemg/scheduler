@@ -51,7 +51,6 @@ export default function Login(props) {
 			.then((res) => {
 				console.log('Saving jwt token...');
 				const token = res.data.token;
-				console.log(token);
 				// Store token in localstorage
 				localStorage.setItem('jwtToken', token);
 				// Store token in axios defaults
@@ -61,8 +60,8 @@ export default function Login(props) {
 				// Push user to home page
 				history.push('/');
 			})
-			.catch((res) => {
-				console.log(res.response.data.message);
+			.catch((err) => {
+				console.log(err);
 			});
 	};
 
