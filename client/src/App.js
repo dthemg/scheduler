@@ -27,7 +27,7 @@ function App() {
 			<Router>
 				<div>
 					<NavBar isLoggedIn={loggedIn} />
-					<Route exact path='/' component={Home} />
+					<Route exact path='/' render={() => <Home loggedIn={loggedIn} />} />
 					<Route path='/profile' component={Profile} />
 					<Route
 						path='/login'
