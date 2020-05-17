@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { Copyright, useStyles } from './_common';
+import { useHistory } from 'react-router';
 
 export default function Register() {
 	const [state, setState] = useState({
@@ -23,6 +24,7 @@ export default function Register() {
 		passwordConfirm: '',
 	});
 	const classes = useStyles();
+	const history = useHistory();
 
 	const onChange = (event) => {
 		setState({ ...state, [event.target.id]: event.target.value });
@@ -40,8 +42,13 @@ export default function Register() {
 				email: email,
 				password: password,
 			},
+		}).then((res) => {
+			if (res.status === 200) {
+				history.push('/login');
+			} else {
+				console.log('Login unsuccessful');
+			}
 		});
-		// TODO: Add .then -> redirect if successful, stay if unsuccessful
 	};
 
 	return (

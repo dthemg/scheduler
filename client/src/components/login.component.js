@@ -15,6 +15,7 @@ import { Copyright, useStyles } from './_common';
 import axios from 'axios';
 import { setAxiosAuthHeader } from '../utils/axios.utils';
 import { useHistory } from 'react-router';
+import PropTypes from 'prop-types';
 
 export default function Login(props) {
 	const [state, setState] = useState({
@@ -134,3 +135,7 @@ export default function Login(props) {
 		</Container>
 	);
 }
+
+Login.propTypes = {
+	setLoggedIn: PropTypes.func,
+};

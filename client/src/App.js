@@ -20,7 +20,7 @@ function App() {
 		if (localStorage.jwtToken) {
 			setLoggedIn(true);
 		}
-	});
+	}, []);
 
 	return (
 		<div className='App'>

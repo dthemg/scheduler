@@ -7,7 +7,7 @@ export default function ProfilePage() {
 		email: '',
 	});
 
-	useEffect(() => {
+	useEffect((state) => {
 		console.log('UseEffect called');
 		// If axios token has been set this should work?
 		axios({
@@ -20,8 +20,6 @@ export default function ProfilePage() {
 			})
 			.catch((err) => console.log(err));
 	}, []);
-
-	//debugger;
 
 	return (
 		<div>

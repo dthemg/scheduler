@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function NavBarLoggedOut(props) {
+export default function NavBar(props) {
 	const classes = useStyles();
 
 	console.log(props.isLoggedIn);
@@ -62,3 +63,7 @@ export default function NavBarLoggedOut(props) {
 		</div>
 	);
 }
+
+NavBar.propTypes = {
+	isLoggedIn: PropTypes.bool,
+};
