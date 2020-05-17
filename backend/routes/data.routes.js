@@ -8,5 +8,7 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	controller.getProfile
 );
+// TODO: Admin authentication, send list of new dates
+router.post('/addCalendarDate', controller.addCalendarDate);
 
 module.exports = router;
