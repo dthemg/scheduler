@@ -16,7 +16,7 @@ export default function ProfilePage() {
 		})
 			.then((res) => {
 				console.log(res);
-				setState({ ...state, name: res.data.message });
+				setState({ ...state, name: res.data.name, email: res.data.email });
 			})
 			.catch((err) => console.log(err));
 	}, []);

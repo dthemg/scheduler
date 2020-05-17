@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,13 +14,23 @@ import Container from '@material-ui/core/Container';
 import { Copyright, useStyles } from './_common';
 import axios from 'axios';
 import { setAxiosAuthHeader } from '../utils/axios.utils';
+import { useHistory } from 'react-router';
 
-export default function Login() {
+export default function Login(props) {
 	const [state, setState] = useState({
 		email: '',
 		password: '',
 	});
 	const classes = useStyles();
+	const history = useHistory();
+
+	useEffect(() => {
+		if (localStorage.jwtToken) {
+			console.log('Removing JWT token since login page opened');
+			localStorage.removeItem('jwtToken');
+			setAxiosAuthHeader();
+		}
+	}, []);
 
 	const onChange = (event) => {
 		setState({ ...state, [event.target.id]: event.target.value });
@@ -45,12 +55,13 @@ export default function Login() {
 				localStorage.setItem('jwtToken', token);
 				// Store token in axios defaults
 				setAxiosAuthHeader(token);
+				// Redraw window as loggedin
+				props.setLoggedIn(true);
+				// Push user to home page
+				history.push('/');
 			})
 			.catch((res) => {
 				console.log(res.response.data.message);
-				// This should be done on Logout instead...
-				localStorage.removeItem('jwtToken');
-				setAxiosAuthHeader();
 			});
 	};
 

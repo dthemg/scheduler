@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import NavBar from './components/navbar.component';
@@ -15,15 +15,25 @@ if (localStorage.jwtToken) {
 }
 
 function App() {
+	const [loggedIn, setLoggedIn] = useState(false);
+	useEffect(() => {
+		if (localStorage.jwtToken) {
+			setLoggedIn(true);
+		}
+	});
+
 	return (
 		<div className='App'>
 			<Router>
 				<div>
-					<NavBar />
+					<NavBar isLoggedIn={loggedIn} />
 					<Route exact path='/' component={Home} />
-					<Route path='/login' component={Login} />
-					<Route path='/register' component={Register} />
 					<Route path='/profile' component={Profile} />
+					<Route
+						path='/login'
+						render={() => <Login setLoggedIn={setLoggedIn} />}
+					/>
+					<Route path='/register' component={Register} />
 				</div>
 			</Router>
 		</div>

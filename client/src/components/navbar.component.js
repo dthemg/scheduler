@@ -19,9 +19,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function NavBar() {
+export default function NavBarLoggedOut(props) {
 	const classes = useStyles();
 
+	console.log(props.isLoggedIn);
 	return (
 		<div className={classes.root}>
 			<AppBar position='static'>
@@ -37,12 +38,25 @@ export default function NavBar() {
 					<Typography variant='h6' className={classes.title}>
 						<a href='/'>Scheduler</a>
 					</Typography>
-					<Button color='inherit' href='./login'>
-						Login
-					</Button>
-					<Button color='inherit' href='./register'>
-						Register
-					</Button>
+					{props.isLoggedIn ? (
+						<div>
+							<Button color='inherit' href='./profile'>
+								Profile
+							</Button>
+							<Button color='inherit' href='./login'>
+								Log out
+							</Button>
+						</div>
+					) : (
+						<div>
+							<Button color='inherit' href='./register'>
+								Register
+							</Button>
+							<Button color='inherit' href='./login'>
+								Log in
+							</Button>
+						</div>
+					)}
 				</Toolbar>
 			</AppBar>
 		</div>
