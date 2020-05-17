@@ -12,6 +12,7 @@ export default function Home() {
 	return (
 		<div>
 			<h1>Home</h1>
+			<p>Available for everyone...</p>
 			<h2>Jwt token</h2>
 			<p>{item}</p>
 			<h2>Decoded JWT</h2>
