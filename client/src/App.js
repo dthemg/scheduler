@@ -6,6 +6,7 @@ import Login from './components/login.component';
 import Home from './components/home.component';
 import Register from './components/register.component';
 import { setAxiosAuthHeader } from './utils/axios.utils';
+import Profile from './components/profile.component';
 
 if (localStorage.jwtToken) {
 	console.log('JWT token found');
@@ -22,6 +23,7 @@ function App() {
 					<Route exact path='/' component={Home} />
 					<Route path='/login' component={Login} />
 					<Route path='/register' component={Register} />
+					<Route path='/profile' component={Profile} />
 				</div>
 			</Router>
 		</div>

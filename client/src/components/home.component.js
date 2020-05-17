@@ -4,7 +4,10 @@ import jwt_decode from 'jwt-decode';
 
 export default function Home() {
 	const item = localStorage.getItem('jwtToken');
-	const decodedItem = jwt_decode(item);
+	var decodedItem = '';
+	if (item) {
+		decodedItem = jwt_decode(item);
+	}
 
 	return (
 		<div>
