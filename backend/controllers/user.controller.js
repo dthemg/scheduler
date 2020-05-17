@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets');
+const _ = require('underscore');
 
 module.exports.login = (req, res) => {
 	console.log('Login called');
@@ -9,7 +10,7 @@ module.exports.login = (req, res) => {
 	// TODO: Default message with empty slots? Might be nice...
 
 	var body = req.body;
-	if (!body) {
+	if (_.isEmpty(body)) {
 		res.status(400).send({ message: 'Request body empty' });
 	}
 
