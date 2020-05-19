@@ -8,14 +8,25 @@ router.post(
 	passport.authenticate('jwt', { session: false }),
 	controller.getProfile
 );
-// TODO: Admin authentication, send list of new dates
-router.post('/addCalendarDate', controller.addCalendarDate);
+
+router.post(
+	'/addCalendarDate',
+	passport.authenticate('jwt', { session: false }),
+	controller.addCalendarDate
+);
 
 // Any authenticated user
 router.get(
 	'/getAllCalendarDates',
 	passport.authenticate('jwt', { session: false }),
 	controller.getAllCalendarDates
+);
+
+// TODO: Keep working with this controller
+router.post(
+	'/updateCalendarDate',
+	passport.authenticate('jwt', { session: false }),
+	controller.updateCalendarDate
 );
 
 module.exports = router;

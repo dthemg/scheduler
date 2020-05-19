@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const CalendarAppointment = require('../models/calendar.date.model');
 
+// TODO: Lol this function is just silly...
 module.exports.getProfile = (req, res) => {
 	console.log('called getProfile');
 	// Uuuuh I think we are sending back what we received...
@@ -18,6 +19,8 @@ module.exports.addCalendarDate = (req, res) => {
 		res.status(400).send({ message: 'Add call has empty body' });
 		return;
 	}
+
+	console.log(req.user);
 
 	CalendarAppointment.findOne({
 		time: req.body.time,
@@ -37,6 +40,13 @@ module.exports.addCalendarDate = (req, res) => {
 			return;
 		}
 	});
+};
+
+module.exports.updateCalendarDate = (req, res) => {
+	console.log('Called updateCalendarDate');
+	CalendarAppointment.findById(req.body.id).then((oneApp) =>
+		console.log(oneApp)
+	);
 };
 
 module.exports.getAllCalendarDates = (req, res) => {
