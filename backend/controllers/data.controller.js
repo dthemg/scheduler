@@ -33,8 +33,16 @@ module.exports.addCalendarDate = (req, res) => {
 			newAppointment
 				.save()
 				.then(() => res.status(200).send({ message: 'Appointment was added' }))
-				.catch((err) => res.status(400).send(`Error when saving: ${err}`));
+				.catch((err) => res.status(500).send(`Error when saving: ${err}`));
 			return;
 		}
+	});
+};
+
+module.exports.getAllCalendarDates = (req, res) => {
+	console.log('Called getAllCalendarDates');
+	CalendarAppointment.find({}).then((appointments) => {
+		console.log(appointments);
+		res.status(200).send(appointments);
 	});
 };

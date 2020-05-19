@@ -11,4 +11,11 @@ router.post(
 // TODO: Admin authentication, send list of new dates
 router.post('/addCalendarDate', controller.addCalendarDate);
 
+// Any authenticated user
+router.get(
+	'/getAllCalendarDates',
+	passport.authenticate('jwt', { session: false }),
+	controller.getAllCalendarDates
+);
+
 module.exports = router;
