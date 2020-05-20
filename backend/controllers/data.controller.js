@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const CalendarAppointment = require('../models/calendar.date.model');
 const User = require('../models/user.model');
+const secrets = require('../config/secrets');
 
 module.exports.getProfile = (req, res) => {
 	console.log('called getProfile');
@@ -22,7 +23,6 @@ module.exports.getProfile = (req, res) => {
 	});
 };
 
-// This has to be admin authenticated
 module.exports.addCalendarDate = (req, res) => {
 	console.log('Called addCalendarDate');
 
@@ -31,7 +31,9 @@ module.exports.addCalendarDate = (req, res) => {
 		return;
 	}
 
-	console.log(req.user);
+	if (!secrets.adminUsers.includes(req.user.email)) {
+		res.status(401).send({ message: 'Only admins have access' });
+	}
 
 	CalendarAppointment.findOne({
 		time: req.body.time,
@@ -54,31 +56,31 @@ module.exports.addCalendarDate = (req, res) => {
 };
 
 module.exports.updateCalendarDate = (req, res) => {
+	console.log('Called updateCalendarDate');
+
 	let appointment_id = req.body.appointment_id;
 	let updates = { user_id: req.body.user_id, busy: req.body.busy };
 
-	// TODO: Assert that user_id exists in db
-	console.log('Called updateCalendarDate');
-	/*
 	User.findById(updates.user_id, (err, model) => {
 		if (err) {
-			res.status(400).send({ message: err, success: false });
+			res.status(400).send({ message: 'User not in db', success: false });
+		} else {
+			CalendarAppointment.findByIdAndUpdate(
+				appointment_id,
+				updates,
+				{ useFindAndModify: false },
+				(err, model) => {
+					if (err) {
+						res
+							.status(500)
+							.send({ message: 'Appointment not in db', success: false });
+					} else {
+						res.status(200).send({ message: 'Data updated', success: true });
+					}
+				}
+			);
 		}
-			});
-};
-		*/
-	CalendarAppointment.findByIdAndUpdate(
-		appointment_id,
-		updates,
-		{ useFindAndModify: false },
-		(err, model) => {
-			if (err) {
-				res.status(500).send({ message: err, success: false });
-			} else {
-				res.status(200).send({ message: 'Data updated', success: true });
-			}
-		}
-	);
+	});
 };
 
 module.exports.getAllCalendarDates = (req, res) => {
