@@ -2,13 +2,23 @@ const _ = require('underscore');
 const CalendarAppointment = require('../models/calendar.date.model');
 const User = require('../models/user.model');
 
-// TODO: Lol this function is just silly...
 module.exports.getProfile = (req, res) => {
 	console.log('called getProfile');
-	// Uuuuh I think we are sending back what we received...
-	res.status(200).send({
-		name: req.user.name,
-		email: req.user.email,
+
+	User.findOne({ email: req.user.email }, (err, model) => {
+		if (err) {
+			res.status(500).send({ message: err });
+		}
+		if (model) {
+			res.status(200).send({
+				id: model._id,
+				name: model.name,
+				email: model.email,
+				created: model.date,
+			});
+		} else {
+			res.status(400).send({ message: 'Did not find user in db' });
+		}
 	});
 };
 
