@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const CalendarAppointment = require('../models/calendar.date.model');
+const User = require('../models/user.model');
 
 // TODO: Lol this function is just silly...
 module.exports.getProfile = (req, res) => {
@@ -43,16 +44,43 @@ module.exports.addCalendarDate = (req, res) => {
 };
 
 module.exports.updateCalendarDate = (req, res) => {
+	let appointment_id = req.body.appointment_id;
+	let updates = { user_id: req.body.user_id, busy: req.body.busy };
+
+	// TODO: Assert that user_id exists in db
 	console.log('Called updateCalendarDate');
-	CalendarAppointment.findById(req.body.id).then((oneApp) =>
-		console.log(oneApp)
+	/*
+	User.findById(updates.user_id, (err, model) => {
+		if (err) {
+			res.status(400).send({ message: err, success: false });
+		}
+			});
+};
+		*/
+	CalendarAppointment.findByIdAndUpdate(
+		appointment_id,
+		updates,
+		{ useFindAndModify: false },
+		(err, model) => {
+			if (err) {
+				res.status(500).send({ message: err, success: false });
+			} else {
+				res.status(200).send({ message: 'Data updated', success: true });
+			}
+		}
 	);
 };
 
 module.exports.getAllCalendarDates = (req, res) => {
 	console.log('Called getAllCalendarDates');
+
 	CalendarAppointment.find({}).then((appointments) => {
-		console.log(appointments);
-		res.status(200).send(appointments);
+		if (appointments) {
+			console.log('Sending all appointments');
+			res.status(200).send(appointments);
+		} else {
+			console.log('No appointments available');
+			res.status(400).send({ message: 'Not found' });
+		}
 	});
 };

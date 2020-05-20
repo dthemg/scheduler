@@ -10,7 +10,7 @@ const CalendarAppointment = new Schema({
 		type: Boolean,
 		required: true,
 	},
-	id_user: {
+	user_id: {
 		type: String,
 		required: false,
 	},

@@ -14,7 +14,7 @@ module.exports = (passport) => {
 			User.findById(jwt_payload.id)
 				.then((user) => {
 					if (user) {
-						console.log('Found user', { ...user });
+						console.log('Found user');
 						return done(null, user);
 					} else {
 						console.log('Did not find user');
