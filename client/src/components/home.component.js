@@ -31,7 +31,7 @@ export default function Home(props) {
 	}
 
 	// TODO: Keep working from here, Make all appointments show up in a nice way
-	useEffect((state) => {
+	useEffect(() => {
 		console.log('UseEffect called');
 		// If axios token has been set this should work?
 		if (item) {

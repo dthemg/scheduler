@@ -61,7 +61,7 @@ module.exports.updateCalendarDate = (req, res) => {
 	let appointment_id = req.body.appointment_id;
 	let updates = { user_id: req.body.user_id, busy: req.body.busy };
 
-	User.findById(updates.user_id, (err, model) => {
+	User.findById(updates.user_id, (err) => {
 		if (err) {
 			res.status(400).send({ message: 'User not in db', success: false });
 		} else {
@@ -69,7 +69,7 @@ module.exports.updateCalendarDate = (req, res) => {
 				appointment_id,
 				updates,
 				{ useFindAndModify: false },
-				(err, model) => {
+				(err) => {
 					if (err) {
 						res
 							.status(500)
