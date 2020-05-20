@@ -5,6 +5,7 @@ export default function ProfilePage() {
 	const [state, setState] = useState({
 		name: '',
 		email: '',
+		createdOn: '',
 	});
 
 	useEffect((state) => {
@@ -16,7 +17,12 @@ export default function ProfilePage() {
 		})
 			.then((res) => {
 				console.log(res);
-				setState({ ...state, name: res.data.name, email: res.data.email });
+				setState({
+					...state,
+					name: res.data.name,
+					email: res.data.email,
+					createdOn: res.data.created,
+				});
 			})
 			.catch((err) => console.log(err));
 	}, []);
@@ -28,6 +34,8 @@ export default function ProfilePage() {
 			<p>{state.name}</p>
 			<p>Your email is: </p>
 			<p>{state.email}</p>
+			<p>Your account was created:</p>
+			<p>{state.createdOn}</p>
 		</div>
 	);
 }

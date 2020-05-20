@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home(props) {
+	const [appointments, setAppointments] = useState([]);
+
 	const item = localStorage.getItem('jwtToken');
 	const classes = useStyles();
 
@@ -26,6 +29,23 @@ export default function Home(props) {
 	if (item) {
 		decodedItem = jwt_decode(item);
 	}
+
+	// TODO: Keep working from here, Make all appointments show up in a nice way
+	useEffect((state) => {
+		console.log('UseEffect called');
+		// If axios token has been set this should work?
+		if (item) {
+			axios({
+				method: 'get',
+				url: 'http://localhost:9000/data/getAllCalendarDates',
+			})
+				.then((res) => {
+					console.log(res);
+					setAppointments(res.data[0].time);
+				})
+				.catch((err) => console.log(err));
+		}
+	}, []);
 
 	return (
 		<div>
@@ -37,6 +57,7 @@ export default function Home(props) {
 			<p>Id: {decodedItem.id}</p>
 			<p>Logged-in user name: {decodedItem.name}</p>
 			<p>Expires in: {decodedItem.exp / (1000 * 60 * 60)} hours</p>
+			<p>{appointments}</p>
 			{props.loggedIn ? (
 				<div className={classes.root}>
 					<Paper>Text on the paper</Paper>
