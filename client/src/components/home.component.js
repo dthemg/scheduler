@@ -21,9 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	card: {
 		maxWidth: 345,
-	},
-	media: {
-		height: 140,
+		maxHeight: 60,
 	},
 }));
 
@@ -55,7 +53,6 @@ export default function Home(props) {
 	const classes = useStyles();
 
 	useEffect(() => {
-		console.log('UseEffect called');
 		if (localStorage.getItem('jwtToken')) {
 			axios({
 				method: 'get',
@@ -77,8 +74,7 @@ export default function Home(props) {
 	};
 
 	const addDayHeader = (idx, arr) => {
-		// If first element add header
-		if (idx == 0) {
+		if (idx === 0) {
 			return true;
 		}
 
