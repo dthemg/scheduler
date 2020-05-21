@@ -3,7 +3,10 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -17,7 +20,31 @@ const useStyles = makeStyles((theme) => ({
 			height: theme.spacing(16),
 		},
 	},
+	card: {
+		maxWidth: 345,
+	},
+	media: {
+		height: 140,
+	},
 }));
+
+function AppointmentCard(props) {
+	const classes = useStyles();
+	return (
+		<Card className={classes.card}>
+			<CardActionArea>
+				<CardContent>
+					<Typography gutterBottom variant='h5' component='h2'>
+						{props.time}
+					</Typography>
+				</CardContent>
+			</CardActionArea>
+		</Card>
+	);
+}
+AppointmentCard.propTypes = {
+	time: PropTypes.instanceOf(Date),
+};
 
 export default function Home(props) {
 	const [appointments, setAppointments] = useState([]);
@@ -25,15 +52,8 @@ export default function Home(props) {
 	const item = localStorage.getItem('jwtToken');
 	const classes = useStyles();
 
-	var decodedItem = '';
-	if (item) {
-		decodedItem = jwt_decode(item);
-	}
-
-	// TODO: Keep working from here, Make all appointments show up in a nice way
 	useEffect(() => {
 		console.log('UseEffect called');
-		// If axios token has been set this should work?
 		if (item) {
 			axios({
 				method: 'get',
@@ -41,7 +61,10 @@ export default function Home(props) {
 			})
 				.then((res) => {
 					console.log(res);
-					setAppointments(res.data[0].time);
+					res.data.sort(function (a, b) {
+						return new Date(a.date) - new Date(b.date);
+					});
+					setAppointments(res.data);
 				})
 				.catch((err) => console.log(err));
 		}
@@ -49,23 +72,15 @@ export default function Home(props) {
 
 	return (
 		<div>
-			<h1>Home</h1>
-			<p>Available for everyone...</p>
-			<h2>Jwt token</h2>
-			<p>{item}</p>
-			<h2>Decoded JWT</h2>
-			<p>Id: {decodedItem.id}</p>
-			<p>Logged-in user name: {decodedItem.name}</p>
-			<p>Expires in: {decodedItem.exp / (1000 * 60 * 60)} hours</p>
-			<p>{appointments}</p>
-			{props.loggedIn ? (
-				<div className={classes.root}>
-					<Paper>Text on the paper</Paper>
-					<Paper>Second item</Paper>
-				</div>
-			) : (
-				<h3>No secret info</h3>
-			)}
+			<div className={classes.root}>
+				{props.loggedIn ? (
+					appointments.map((val, idx) => {
+						return <AppointmentCard key={idx} time={val.time} />;
+					})
+				) : (
+					<h2>Log in to see available times</h2>
+				)}
+			</div>
 		</div>
 	);
 }
