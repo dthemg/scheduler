@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { ALL_DATES_URL } from '../utils/urls';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -56,7 +57,7 @@ export default function Home(props) {
 		if (localStorage.getItem('jwtToken')) {
 			axios({
 				method: 'get',
-				url: 'http://localhost:9000/data/getAllCalendarDates',
+				url: ALL_DATES_URL,
 			})
 				.then((res) => {
 					console.log(res);

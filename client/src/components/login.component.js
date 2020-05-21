@@ -16,6 +16,7 @@ import axios from 'axios';
 import { setAxiosAuthHeader } from '../utils/axios.utils';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
+import { LOGIN_URL } from '../utils/urls';
 
 export default function Login(props) {
 	const [state, setState] = useState({
@@ -42,7 +43,7 @@ export default function Login(props) {
 		console.log(state);
 		axios({
 			method: 'post',
-			url: 'http://localhost:9000/auth/login',
+			url: LOGIN_URL,
 			data: {
 				email: state.email,
 				password: state.password,

@@ -14,6 +14,7 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { Copyright, useStyles } from './_common';
 import { useHistory } from 'react-router';
+import { REGISTER_URL } from '../utils/urls';
 
 export default function Register() {
 	const [state, setState] = useState({
@@ -36,7 +37,7 @@ export default function Register() {
 		console.log(firstName, lastName, email, password);
 		axios({
 			method: 'post',
-			url: 'http://localhost:9000/auth/register',
+			url: REGISTER_URL,
 			data: {
 				name: firstName + ' ' + lastName,
 				email: email,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { PROFILE_URL } from '../utils/urls';
 
 export default function ProfilePage() {
 	const [state, setState] = useState({
@@ -13,7 +14,7 @@ export default function ProfilePage() {
 		// If axios token has been set this should work?
 		axios({
 			method: 'post',
-			url: 'http://localhost:9000/data/profile',
+			url: PROFILE_URL,
 		})
 			.then((res) => {
 				console.log(res);
