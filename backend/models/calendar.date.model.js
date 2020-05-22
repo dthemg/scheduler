@@ -13,6 +13,7 @@ const CalendarAppointment = new Schema({
 	user_id: {
 		type: String,
 		required: false,
+		default: '',
 	},
 });
 

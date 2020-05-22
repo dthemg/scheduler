@@ -6,7 +6,8 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { ALL_DATES_URL } from '../utils/urls';
+import { ALL_DATES_URL, UPDATE_APPOINTMENT_URL } from '../utils/urls';
+import jwt_decode from 'jwt-decode';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -33,8 +34,24 @@ function AppointmentCard(props) {
 	var hrs = hrsAndMins[0];
 	var mins = hrsAndMins[1];
 
+	const onClick = (event) => {
+		const token = localStorage.getItem('jwtToken').split(' ')[1];
+		const user = jwt_decode(token);
+
+		event.preventDefault();
+		axios({
+			method: 'post',
+			url: UPDATE_APPOINTMENT_URL,
+			data: {
+				busy: true,
+				user_id: user.id,
+				appointment_id: props.appointment_id,
+			},
+		}).then((res) => console.log(res));
+	};
+
 	return (
-		<Card className={classes.card}>
+		<Card className={classes.card} onClick={onClick}>
 			<CardActionArea>
 				<CardContent>
 					<Typography gutterBottom variant='h5' component='h2'>
@@ -47,6 +64,7 @@ function AppointmentCard(props) {
 }
 AppointmentCard.propTypes = {
 	time: PropTypes.string,
+	appointment_id: PropTypes.string,
 };
 
 export default function Home(props) {
@@ -98,7 +116,7 @@ export default function Home(props) {
 								<h1></h1>
 							)}
 							<div className={classes.root}>
-								<AppointmentCard time={val.time} />
+								<AppointmentCard time={val.time} appointment_id={val._id} />
 							</div>
 						</div>
 					);

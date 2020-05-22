@@ -14,8 +14,6 @@ module.exports.login = (req, res) => {
 		res.status(400).send({ message: 'Request body empty' });
 	}
 
-	console.log(body.email);
-
 	// Find user by email
 	User.findOne({ email: body.email }).then((user) => {
 		if (!user) {

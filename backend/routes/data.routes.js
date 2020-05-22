@@ -15,14 +15,12 @@ router.post(
 	controller.addCalendarDate
 );
 
-// Any authenticated user
 router.get(
 	'/getAllCalendarDates',
 	passport.authenticate('jwt', { session: false }),
 	controller.getAllCalendarDates
 );
 
-// TODO: Keep working with this controller
 router.post(
 	'/updateCalendarDate',
 	passport.authenticate('jwt', { session: false }),
