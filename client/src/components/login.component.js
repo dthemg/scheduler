@@ -40,7 +40,6 @@ export default function Login(props) {
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-		console.log(state);
 		axios({
 			method: 'post',
 			url: LOGIN_URL,

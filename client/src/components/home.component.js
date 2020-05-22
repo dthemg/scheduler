@@ -25,34 +25,47 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: 345,
 		maxHeight: 60,
 	},
+	booked: {
+		backgroundColor: 'green',
+	},
 }));
 
 function AppointmentCard(props) {
+	const [busy, setBusy] = useState(props.busy);
 	const classes = useStyles();
 
-	var hrsAndMins = props.time.split('T')[1].split(':');
+	var hrsAndMins = props.appointmentTime.split('T')[1].split(':');
 	var hrs = hrsAndMins[0];
 	var mins = hrsAndMins[1];
 
-	const onClick = (event) => {
-		const token = localStorage.getItem('jwtToken').split(' ')[1];
-		const user = jwt_decode(token);
+	// TODO: We shouldn't read this value every time we load an appointment
+	const token = localStorage.getItem('jwtToken').split(' ')[1];
+	const user = jwt_decode(token);
 
+	const onClick = (event) => {
 		event.preventDefault();
 		axios({
 			method: 'post',
 			url: UPDATE_APPOINTMENT_URL,
 			data: {
-				busy: true,
+				busy: !busy,
 				user_id: user.id,
-				appointment_id: props.appointment_id,
+				appointment_id: props.appointmentId,
 			},
-		}).then((res) => console.log(res));
+		})
+			.then((res) => {
+				if (res.data.success) {
+					setBusy(!busy);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
-
+	// TODO: Add pending status also that changes color when booking goes through
 	return (
 		<Card className={classes.card} onClick={onClick}>
-			<CardActionArea>
+			<CardActionArea className={busy ? classes.booked : null}>
 				<CardContent>
 					<Typography gutterBottom variant='h5' component='h2'>
 						{hrs} : {mins}
@@ -63,8 +76,10 @@ function AppointmentCard(props) {
 	);
 }
 AppointmentCard.propTypes = {
-	time: PropTypes.string,
-	appointment_id: PropTypes.string,
+	appointmentTime: PropTypes.string,
+	appointmentId: PropTypes.string,
+	appointmentBusy: PropTypes.bool,
+	appointmentUserId: PropTypes.string,
 };
 
 export default function Home(props) {
@@ -110,13 +125,14 @@ export default function Home(props) {
 				appointments.map((val, idx, arr) => {
 					return (
 						<div key={idx}>
-							{addDayHeader(idx, arr) ? (
-								<h1>{getDate(val.time)}</h1>
-							) : (
-								<h1></h1>
-							)}
+							{addDayHeader(idx, arr) ? <h1>{getDate(val.time)}</h1> : null}
 							<div className={classes.root}>
-								<AppointmentCard time={val.time} appointment_id={val._id} />
+								<AppointmentCard
+									appointmentTime={val.time}
+									appointmentId={val._id}
+									appointmentBusy={val.busy}
+									appointmentUserId={val.user_id}
+								/>
 							</div>
 						</div>
 					);
