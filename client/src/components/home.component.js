@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { Typography } from '@material-ui/core';
 import { ALL_DATES_URL } from '../utils/urls';
 import AppointmentCard from './booking.card.component';
 
-// TODO: Global theming instead of in individual files
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
@@ -18,13 +17,6 @@ const useStyles = makeStyles((theme) => ({
 			width: theme.spacing(16),
 			height: theme.spacing(16),
 		},
-	},
-	card: {
-		maxWidth: 345,
-		maxHeight: 60,
-	},
-	booked: {
-		backgroundColor: 'green',
 	},
 }));
 
@@ -71,7 +63,11 @@ export default function Home(props) {
 				appointments.map((val, idx, arr) => {
 					return (
 						<div key={idx}>
-							{addDayHeader(idx, arr) ? <h1>{getDate(val.time)}</h1> : null}
+							{addDayHeader(idx, arr) ? (
+								<div>
+									<Typography variant='h4'>{getDate(val.time)}</Typography>
+								</div>
+							) : null}
 							<div className={classes.root}>
 								<AppointmentCard
 									appointmentTime={val.time}

@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useTheme } from '@material-ui/styles';
 
-// TODO: Global theming instead of in individual files
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
@@ -32,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
 		color: 'white',
 	},
 	bookedBySomeoneElse: {
-		backgroundColor: '#ffca28',
-		color: 'black',
+		backgroundColor: '#8e0000',
+		color: 'white',
 	},
 }));
 
