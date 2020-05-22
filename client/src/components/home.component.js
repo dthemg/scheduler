@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppointmentCard(props) {
-	const [busy, setBusy] = useState(props.busy);
+	const [busy, setBusy] = useState(props.appointmentBusy);
 	const classes = useStyles();
 
 	var hrsAndMins = props.appointmentTime.split('T')[1].split(':');
@@ -42,6 +42,7 @@ function AppointmentCard(props) {
 	const token = localStorage.getItem('jwtToken').split(' ')[1];
 	const user = jwt_decode(token);
 
+	// TODO: Don't redefine this function, send it as a prop
 	const onClick = (event) => {
 		event.preventDefault();
 		axios({
@@ -63,6 +64,7 @@ function AppointmentCard(props) {
 			});
 	};
 	// TODO: Add pending status also that changes color when booking goes through
+	// TODO: Add color for your own booking
 	return (
 		<Card className={classes.card} onClick={onClick}>
 			<CardActionArea className={busy ? classes.booked : null}>
