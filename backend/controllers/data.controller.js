@@ -65,20 +65,21 @@ module.exports.updateCalendarDate = (req, res) => {
 		if (err) {
 			res.status(400).send({ message: 'User not in db', success: false });
 		} else {
-			CalendarAppointment.findByIdAndUpdate(
-				appointment_id,
-				updates,
-				{ useFindAndModify: false },
-				(err) => {
-					if (err) {
-						res
-							.status(500)
-							.send({ message: 'Appointment not in db', success: false });
-					} else {
-						res.status(200).send({ message: 'Data updated', success: true });
-					}
+			CalendarAppointment.findById(appointment_id, (err, appointment) => {
+				if (err) {
+					res
+						.status(500)
+						.send({ message: 'Server error when booking', success: false });
+				} else if (appointment.user_id !== updates.user_id) {
+					res.status(401).send({ message: 'Unauthorized', success: false });
+				} else {
+					appointment.user_id = updates.user_id;
+					appointment.busy = updates.busy;
+					res
+						.status(200)
+						.send({ message: 'Updated successfully', success: true });
 				}
-			);
+			});
 		}
 	});
 };
