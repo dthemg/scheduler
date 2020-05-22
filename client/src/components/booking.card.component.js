@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles, withTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 import { UPDATE_APPOINTMENT_URL } from '../utils/urls';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { useTheme } from '@material-ui/styles';
 
 // TODO: Global theming instead of in individual files
 const useStyles = makeStyles((theme) => ({
@@ -26,14 +27,20 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: 345,
 		maxHeight: 60,
 	},
-	booked: {
-		backgroundColor: 'green',
+	bookedByMe: {
+		backgroundColor: theme.palette.primary.light,
+		color: 'white',
+	},
+	bookedBySomeoneElse: {
+		backgroundColor: '#ffca28',
+		color: 'black',
 	},
 }));
 
 function AppointmentCard(props) {
 	const [busy, setBusy] = useState(props.appointmentBusy);
-	const classes = useStyles();
+	const theme = useTheme();
+	const classes = useStyles(theme);
 
 	var hrsAndMins = props.appointmentTime.split('T')[1].split(':');
 	var hrs = hrsAndMins[0];
@@ -64,11 +71,19 @@ function AppointmentCard(props) {
 				console.log(err);
 			});
 	};
-	// TODO: Add pending status also that changes color when booking goes through
-	// TODO: Add color for your own booking
+
+	var color = null;
+	if (busy) {
+		if (user.id === props.appointmentUserId) {
+			color = classes.bookedByMe;
+		} else {
+			color = classes.bookedBySomeoneElse;
+		}
+	}
+
 	return (
 		<Card className={classes.card} onClick={onClick}>
-			<CardActionArea className={busy ? classes.booked : null}>
+			<CardActionArea className={color}>
 				<CardContent>
 					<Typography gutterBottom variant='h5' component='h2'>
 						{hrs} : {mins}
@@ -85,4 +100,4 @@ AppointmentCard.propTypes = {
 	appointmentUserId: PropTypes.string,
 };
 
-export default withTheme(AppointmentCard);
+export default AppointmentCard;
