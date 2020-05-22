@@ -7,7 +7,10 @@ import Home from './components/home.component';
 import Register from './components/register.component';
 import { setAxiosAuthHeader } from './utils/axios.utils';
 import Profile from './components/profile.component';
+import { ThemeProvider } from '@material-ui/core';
+import mainTheme from './themes/themes';
 
+// TODO: Have a look at this part
 if (localStorage.jwtToken) {
 	console.log('JWT token found');
 	const token = localStorage.getItem('jwtToken');
@@ -23,20 +26,23 @@ function App() {
 	}, []);
 
 	return (
-		<div className='App'>
-			<Router>
-				<div>
-					<NavBar isLoggedIn={loggedIn} />
-					<Route exact path='/' render={() => <Home loggedIn={loggedIn} />} />
-					<Route path='/profile' component={Profile} />
-					<Route
-						path='/login'
-						render={() => <Login setLoggedIn={setLoggedIn} />}
-					/>
-					<Route path='/register' component={Register} />
-				</div>
-			</Router>
-		</div>
+		// TODO: Keep looking at themeprovider...
+		<ThemeProvider theme={mainTheme}>
+			<div className='App'>
+				<Router>
+					<div>
+						<NavBar isLoggedIn={loggedIn} />
+						<Route exact path='/' render={() => <Home loggedIn={loggedIn} />} />
+						<Route path='/profile' component={Profile} />
+						<Route
+							path='/login'
+							render={() => <Login setLoggedIn={setLoggedIn} />}
+						/>
+						<Route path='/register' component={Register} />
+					</div>
+				</Router>
+			</div>
+		</ThemeProvider>
 	);
 }
 

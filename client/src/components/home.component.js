@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { ALL_DATES_URL, UPDATE_APPOINTMENT_URL } from '../utils/urls';
 import jwt_decode from 'jwt-decode';
 
+// TODO: Global theming instead of in individual files
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
@@ -145,7 +146,7 @@ export default function Home(props) {
 		</div>
 	);
 }
-
+// TODO: This loggedIn function seems to not work that well...
 Home.propTypes = {
 	loggedIn: PropTypes.bool,
 };
